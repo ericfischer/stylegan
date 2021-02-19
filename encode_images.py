@@ -69,8 +69,14 @@ def main():
         perceptual_model.set_reference_images(images_batch)
         op = perceptual_model.optimize(generator.dlatent_variable, iterations=args.iterations, learning_rate=args.lr)
         pbar = tqdm(op, leave=False, total=args.iterations)
+        n = 0
         for loss in pbar:
             pbar.set_description(' '.join(names)+' Loss: %.2f' % loss)
+            generated_images = generator.generate_images()
+            img = PIL.Image.fromarray(img_array, 'RGB')
+            img.save(os.path.join(args.generated_images_dir, f'{img_name}-{n}.png'), 'PNG')
+            n = n + 1
+
         print(' '.join(names), ' loss:', loss)
 
         # Generate images from found dlatents and save them
