@@ -72,12 +72,13 @@ def main():
         n = 0
         for loss in pbar:
             pbar.set_description(' '.join(names)+' Loss: %.2f' % loss)
-            generated_images = generator.generate_images()
-            generated_dlatents = generator.get_dlatents()
-            for img_array, dlatent, img_name in zip(generated_images, generated_dlatents, names):
-                img = PIL.Image.fromarray(img_array, 'RGB')
-                img.save(os.path.join(args.generated_images_dir, f'{img_name}-{n}.png'), 'PNG')
-                n = n + 1
+            if n % 10 == 0:
+                generated_images = generator.generate_images()
+                generated_dlatents = generator.get_dlatents()
+                for img_array, dlatent, img_name in zip(generated_images, generated_dlatents, names):
+                    img = PIL.Image.fromarray(img_array, 'RGB')
+                    img.save(os.path.join(args.generated_images_dir, f'{img_name}-{n}.png'), 'PNG')
+            n = n + 1
 
         print(' '.join(names), ' loss:', loss)
 
