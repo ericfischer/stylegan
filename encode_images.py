@@ -72,7 +72,7 @@ def main():
         n = 0
         for loss in pbar:
             pbar.set_description(' '.join(names)+' Loss: %.2f' % loss)
-            if n % 10 == 0:
+            if n % 50 == 0:
                 generated_images = generator.generate_images()
                 generated_dlatents = generator.get_dlatents()
                 for img_array, dlatent, img_name in zip(generated_images, generated_dlatents, names):
